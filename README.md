@@ -11,8 +11,5 @@
     o seguinte comando "python kNN.py".
     Para mudar os arquivos de treino e teste, os novos arquivos devem ser especificados dentro do arquivo "kNN.py"
     nas linhas 107 e 108 dentro da função "main()", na seguinte ordem, arquivo de teste e depois arquivo de treino.
-    Em media o tempo de execução do algotimo fica em torno de 7 minutos e os resultados para os respectiovos "k" irá 
-    aparecer via terminal juntamente com a matriz de confusão e a precisão do algoritmo.
-    
-    
- 
+    Em média o tempo de execução do algotimo fica em torno de 7 minutos e os resultados para os respectivos "k`s" irá 
+    aparecer via terminal juntamente com a matriz de confusão e a precisão do algoritmo para dado "k".
