@@ -4,80 +4,80 @@ import math
 import operator
 
 
-def maxVal(A, init, end):  # Max nlogn sem a classe
-    if end - init <= 1:
-        return max(A[init], A[end])
+def maxVal(A, inicio, fim):  # Max nlogn sem a classe
+    if fim - inicio <= 1:
+        return max(A[inicio], A[fim])
     else:
-        m = (init + end) / 2
-        v1 = maxVal(A, init, m)
-        v2 = maxVal(A, m + 1, end)
-        return max(v1, v2)
+        meio = (inicio + fim) / 2
+        a = maxVal(A, inicio, meio)
+        b = maxVal(A, meio + 1, fim)
+        return max(a, b)
 
 
-def minVal(A, init, end):  # Min nlogn sem a classe
-    if end - init <= 1:
-        return min(A[init], A[end])
+def minVal(A, inicio, fim):  # Min nlogn sem a classe
+    if fim - inicio <= 1:
+        return min(A[inicio], A[fim])
     else:
-        m = (init + end) / 2
-        v1 = minVal(A, init, m)
-        v2 = minVal(A, m + 1, end)
-        return min(v1, v2)
+        meio = (inicio + fim) / 2
+        a = minVal(A, inicio, meio)
+        b = minVal(A, meio + 1, fim)
+        return min(a, b)
 
 
-def loadDataset(vetorElemen, lista):
+def loadDataset(elementoV, lista):
     i = 0
-    aux = []
-    for elemen in vetorElemen:  # 1000 pos
-        aux = elemen.split(" ")  # quebra as linhas onde tem espaco
-        aux2 = []
-        for x in aux:  # 133 pos
+    u = []
+    for elemen in elementoV:  # 1000 pos
+        u = elemen.split(" ")  # quebra as linhas onde tem espaco
+        aux = []
+        for x in u:  # 133 pos
             if i == 132:  # classe
-                aux2.append(x.strip(" "))
+                aux.append(x.strip(" "))
             if i != 132:
-                aux2.append(float(x.strip(" ")))
+                aux.append(float(x.strip(" ")))
             i += 1
         i = 0
-        lista.append(aux2)
+        lista.append(aux)
 
 
-def euclideanDistance(instance1, instance2, length):
-    distance = 0
-    for x in range(length):
-        distance += pow((instance1[x] - instance2[x]), 2)
-    return math.sqrt(distance)
+def euclideanDistance(instancia1, instancia2, tam):
+    distancia = 0
+    for x in range(tam):
+        distancia += pow((instancia1[x] - instancia2[x]), 2)
+    return math.sqrt(distancia)
 
 
-def getNeighbors(trainingSet, testInstance, k):
-    distances = []
-    length = len(testInstance) - 1
-    for x in range(len(trainingSet)):
-        dist = euclideanDistance(testInstance, trainingSet[x], length)
-        distances.append((trainingSet[x], dist))
-    distances.sort(key=operator.itemgetter(1))
-    neighbors = []
+def getNeighbors(treinoSet, testeInstancia, k):
+    distancias = []
+    tam = len(testeInstancia) - 1
+    for x in range(len(treinoSet)):
+        dist = euclideanDistance(testeInstancia, treinoSet[x], tam)
+        distancias.append((treinoSet[x], dist))
+    distancias.sort(key=operator.itemgetter(1))
+    vizinhos = []
     for x in range(k):
-        neighbors.append(distances[x][0])
-    return neighbors
+        vizinhos.append(distancias[x][0])
+    return vizinhos
 
 
-def getResponse(neighbors):
-    classVotes = {}
-    for x in range(len(neighbors)):
-        response = neighbors[x][-1]
-        if response in classVotes:
-            classVotes[response] += 1
+def getResponse(vizinhos):
+    votosClasses = {}
+    for x in range(len(vizinhos)):
+        resposta = vizinhos[x][-1]
+        if resposta in votosClasses:
+            votosClasses[resposta] += 1
         else:
-            classVotes[response] = 1
-    sortedVotes = sorted(classVotes.iteritems(), key=operator.itemgetter(1), reverse=True)
-    return sortedVotes[0][0]
+            votosClasses[resposta] = 1
+    votosClassificados = sorted(votosClasses.iteritems(), key=operator.itemgetter(1), reverse=True)
+    return votosClassificados[0][0]
 
 
-def getAccuracy(testSet, predictions):
-    correct = 0
-    for x in range(len(testSet)):
-        if testSet[x][-1] == predictions[x]:
-            correct += 1
-    return (correct / float(len(testSet))) * 100.0
+def getAccuracy(testeSet, predicoes):
+    correto = 0
+    for x in range(len(testeSet)):
+        if testeSet[x][-1] == predicoes[x]:
+            correto += 1
+    return (correto / float(len(testeSet))) * 100.0
 
 
 def minMaxNorm(vetor):  # Normaliza o vetor usando Min-Max
